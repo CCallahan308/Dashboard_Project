@@ -385,6 +385,16 @@ if __name__ == "__main__":
             load_to_staging(econ_df, 'raw_econ_data')
 
         logger.info("=== Data Extraction Phase Complete ===")
+
+        # Data Transformation Phase
+        logger.info("=== Starting Data Transformation Phase ===")
+
+        if execute_transformations():
+            logger.info("=== Data Transformation Phase Complete ===")
+        else:
+            logger.error("Data transformation failed")
+            raise Exception("Transformation phase failed")
+
         logger.info("Financial Dashboard Data Pipeline completed successfully")
 
     except Exception as e:
