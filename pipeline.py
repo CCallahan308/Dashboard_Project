@@ -318,6 +318,44 @@ def load_to_staging(dataframe: pd.DataFrame, table_name: str) -> int:
         raise
 
 
+def execute_transformations() -> bool:
+    """
+    Execute SQL transformation script to move data from staging to analytics
+
+    Returns:
+        True if successful, False otherwise
+    """
+    try:
+        logger.info("Starting data transformation phase")
+
+        # Read transform.sql file
+        script_path = os.path.join(os.path.dirname(__file__), 'transform.sql')
+
+        if not os.path.exists(script_path):
+            logger.error(f"Transform script not found: {script_path}")
+            return False
+
+        with open(script_path, 'r') as f:
+            sql_script = f.read()
+
+        # Execute transformation script
+        engine = get_db_engine()
+
+        with engine.connect() as conn:
+            # Begin transaction
+            with conn.begin():
+                # Execute the transformation script
+                result = conn.execute(text(sql_script))
+                logger.info("Transformation script executed successfully")
+
+        logger.info("Data transformation phase completed")
+        return True
+
+    except Exception as e:
+        logger.error(f"Error during transformation: {e}")
+        return False
+
+
 if __name__ == "__main__":
     try:
         logger.info("Starting Financial Dashboard Data Pipeline")
