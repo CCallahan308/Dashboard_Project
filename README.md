@@ -32,11 +32,16 @@ The data pipeline for the financial dashboard
 
    Add your login information to the .env file:
 
-   DATABASE_URL=postgresql://dashboard_user:your_password@localhost:5432/financial_dashboard  your_alpha_vantage_key = ALPHA_VANTAGE_API_KEY  YOUR_NEWSAPI_KEY is your newsapi key.  FRED_API_KEY=your_fred_key
+   DATABASE_URL=postgresql://dashboard_user:your_password@localhost:5432/financial_dashboard  
+   your_alpha_vantage_key = ALPHA_VANTAGE_API_KEY  
+   YOUR_NEWSAPI_KEY is your newsapi key.  
+   FRED_API_KEY=your_fred_key
 
    ## How to Build a Project
 
-   Dashboard_Project/ ├── pipeline.py    The main script for the ELT pipeline    setup_database.sql for the Flask web dashboard    Using transform.sql, Requirements.txt, Python requirements, .env.example, and data update queries to set up the database schema.    A structure for environmental factors    HTML template for the pages that show errors and the dashboard    Template for an error page  └── static/ └── css/ └── style.css    Making the dashboard look better
+   Dashboard_Project/ ├── pipeline.py  
+   The main script for the ELT pipeline setup_database.sql for the Flask web dashboard    
+   Using transform.sql, Requirements.txt, Python requirements, .env.example, and data update queries to set up the database schema.    
 
    ## Rocket: How to Use the App
 
