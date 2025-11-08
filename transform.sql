@@ -2,6 +2,11 @@
 -- Transforms raw staging data into clean analytics star schema
 
 -- ===================================
+-- TRUNCATE TABLES
+-- ===================================
+TRUNCATE TABLE analytics.fact_prices, analytics.fact_news, analytics.fact_economics, analytics.dim_security, analytics.dim_economic_indicator RESTART IDENTITY;
+
+-- ===================================
 -- DATE DIMENSION POPULATION
 -- ===================================
 
@@ -29,18 +34,23 @@ INSERT INTO analytics.dim_security (symbol, company_name, sector, industry, mark
 SELECT DISTINCT
     symbol,
     CASE
-        WHEN symbol = 'AAPL' THEN 'Apple Inc.'
-        WHEN symbol = 'MSFT' THEN 'Microsoft Corporation'
-        WHEN symbol = 'GOOGL' THEN 'Alphabet Inc.'
-        WHEN symbol = 'TSLA' THEN 'Tesla, Inc.'
+        WHEN symbol = 'NVDA' THEN 'NVIDIA Corporation'
+        WHEN symbol = 'TSM' THEN 'Taiwan Semiconductor Manufacturing Co., Ltd.'
+        WHEN symbol = 'NFLX' THEN 'Netflix, Inc.'
+        WHEN symbol = 'UBER' THEN 'Uber Technologies, Inc.'
+        WHEN symbol = 'ADBE' THEN 'Adobe Inc.'
         ELSE SPLIT_PART(symbol, '.', 1)
     END as company_name,
     CASE
-        WHEN symbol IN ('AAPL', 'MSFT', 'GOOGL', 'TSLA') THEN 'Technology'
+        WHEN symbol IN ('NVDA', 'TSM', 'UBER', 'ADBE') THEN 'Technology'
+        WHEN symbol = 'NFLX' THEN 'Communication Services'
         ELSE 'Unknown'
     END as sector,
     CASE
-        WHEN symbol IN ('AAPL', 'MSFT', 'GOOGL', 'TSLA') THEN 'Software'
+        WHEN symbol IN ('NVDA', 'TSM') THEN 'Semiconductors'
+        WHEN symbol = 'NFLX' THEN 'Entertainment'
+        WHEN symbol = 'UBER' THEN 'Software - Application'
+        WHEN symbol = 'ADBE' THEN 'Software - Infrastructure'
         ELSE 'Unknown'
     END as industry,
     0 as market_cap
