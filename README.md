@@ -1,6 +1,3 @@
-Here's a revised and improved version of your README.
-
-This version aims to be much cleaner, more professional, and easier for another developer to understand and use. I've fixed the formatting, corrected the setup commands, and reorganized the sections to follow a more standard GitHub project layout.
 
 -----
 
