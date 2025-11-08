@@ -160,7 +160,7 @@
                                         <div class="news-header">
                                             <span class="news-source">{{ article.source_name }}</span>
                                             <div class="d-flex align-items-center">
-                                                {% set sentiment_color = 'text-warning' if article.sentiment_score > -0.05 and article.sentiment_score < 0.05 else ('text-success' if article.sentiment_score > 0 else 'text-danger') %}
+                                                {% set sentiment_color = 'text-muted' if article.sentiment_score is none else ('text-warning' if article.sentiment_score > -0.05 and article.sentiment_score < 0.05 else ('text-success' if article.sentiment_score > 0 else 'text-danger')) %}
                                                 <i class="fas fa-circle {{ sentiment_color }} me-2" title="Sentiment: {{ article.sentiment_score }}"></i>
                                                 <span class="news-date">{{ article.full_date.strftime('%b %d, %Y') }}</span>
                                             </div>
