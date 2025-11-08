@@ -1,237 +1,163 @@
-# Financial Dashboard Data Pipeline
+The data pipeline for the financial dashboard
 
-A complete financial data pipeline that extracts data from three financial APIs (Alpha Vantage, NewsAPI, FRED), loads raw data into a PostgreSQL staging database, transforms it into a clean analytics-ready star schema, and displays results in an interactive Flask web dashboard.
+   An entire financial data pipeline that gets data from three financial APIs (Alpha Vantage, NewsAPI, and FRED), stores it in a PostgreSQL staging database, puts it into a clear star schema for analysis, and shows the results on a Flask online dashboard that you can interact with.
 
-## 🚀 Features
+   Things to Do
 
-- **Data Extraction**: Fetches stock prices, news articles, and economic indicators from external APIs
-- **Staging Database**: Raw data storage with text-only columns for API integration
-- **Data Transformation**: SQL-based ELT process creating a proper star schema
-- **Interactive Dashboard**: Web-based visualization with Plotly charts and real-time updates
-- **Automated Pipeline**: Complete end-to-end data flow execution
+   - Data Extraction: Gets stock prices, news stories, and economic indicators from APIs that are outside of the system  - Staging Database: Keeps raw data with simply text columns for API integration  - Data Transformation: Uses SQL to set up a correct star schema  - Interactive Dashboard: Shows data on the web using Plotly charts and updates in real time.  - Automated Pipeline: Takes care of the whole data flow from start to finish.
 
-## 📋 Prerequisites
+   ## 📋 What You Need
 
-- Python 3.8+
-- PostgreSQL 12+
-- API Keys:
-  - [Alpha Vantage](https://www.alphavantage.co/support/#api-key) (Stock Data)
-  - [NewsAPI](https://newsapi.org/register) (Financial News)
-  - [FRED API](https://fred.stlouisfed.org/docs/api/api_key.html) (Economic Data)
+   Python 3.8 is the least you need.
 
-## 🛠️ Installation
+   PostgreSQL 12 API keys are the bare minimum.   
+   
+      - [Alpha Vantage] Information about stocks
 
-### 1. Clone Repository
-```bash
-git clone <repository-url>
-cd Dashboard_Project
-```
+     - [NewsAPI](https://newsapi.org/register)  Money News
 
-### 2. Install Python Dependencies
-```bash
-pip install -r requirements.txt
-```
+     - [FRED API Documentation](https://fred.stlouisfed.org/docs/api/api_key.html): News on the economy
 
-### 3. Setup PostgreSQL Database
-```bash
-# Create database and user
-createdb financial_dashboard
-createuser dashboard_user
-psql -c "ALTER USER dashboard_user PASSWORD 'your_password';"
-psql -c "GRANT ALL PRIVILEGES ON DATABASE financial_dashboard TO dashboard_user;"
+ Set up
 
-# Run database setup script
-psql -d financial_dashboard -f setup_database.sql
-```
+   1. Make a copy of the repository: cd Dashboard_Project
 
-### 4. Configure Environment Variables
-```bash
-# Copy environment template
-cp .env.example .env
+   2. Set up the Python requirements.
 
-# Edit .env with your credentials:
-# DATABASE_URL=postgresql://dashboard_user:your_password@localhost:5432/financial_dashboard
-# ALPHA_VANTAGE_API_KEY=your_alpha_vantage_key
-# NEWSAPI_KEY=your_newsapi_key
-# FRED_API_KEY=your_fred_key
-```
+   3. Set up the PostgreSQL database  To set up a database and a user, use the command createdb financial_dashboard psql -c.  CREATE USER dashboard_user;  ALTER USER dashboard_user WITH PASSWORD 'your_password'; psql -c "GIVE ALL PRIVILEGES ON DATABASE financial_dashboard TO dashboard_user;
 
-## 🏗️ Project Structure
+   Run the script to make the database work.  Run psql with the command -d financial_dashboard and the file -f setup_database.sql.
 
-```
-Dashboard_Project/
-├── pipeline.py              # Main ELT pipeline script
-├── app.py                   # Flask web dashboard
-├── setup_database.sql       # Database schema setup
-├── transform.sql            # Data transformation queries
-├── requirements.txt         # Python dependencies
-├── .env.example            # Environment variables template
-├── templates/
-│   ├── index.html          # Dashboard HTML template
-│   └── error.html          # Error page template
-└── static/
-    └── css/
-        └── style.css       # Dashboard styling
-```
+   ### 4. Set up Environment Variables ```bash # Copy the environment template cp .env.example .env 
 
-## 🚀 Running the Application
+   Add your login information to the .env file:
 
-### Step 1: Execute the Data Pipeline
-```bash
-python pipeline.py
-```
+   DATABASE_URL=postgresql://dashboard_user:your_password@localhost:5432/financial_dashboard  your_alpha_vantage_key = ALPHA_VANTAGE_API_KEY  YOUR_NEWSAPI_KEY is your newsapi key.  FRED_API_KEY=your_fred_key
 
-This will:
-1. Extract stock data from Alpha Vantage (AAPL, MSFT, GOOGL, TSLA)
-2. Extract news articles from NewsAPI (last 7 days)
-3. Extract economic data from FRED (GDP, UNRATE, CPIAUCSL, FEDFUNDS)
-4. Load all data into staging tables
-5. Transform and populate analytics star schema
+   ## How to Build a Project
 
-### Step 2: Start the Web Dashboard
-```bash
-python app.py
-```
+   Dashboard_Project/ ├── pipeline.py    The main script for the ELT pipeline    setup_database.sql for the Flask web dashboard    Using transform.sql, Requirements.txt, Python requirements, .env.example, and data update queries to set up the database schema.    A structure for environmental factors    HTML template for the pages that show errors and the dashboard    Template for an error page  └── static/ └── css/ └── style.css    Making the dashboard look better
 
-Open your browser and navigate to `http://localhost:5000` to view the dashboard.
+   ## Rocket: How to Use the App
 
-## 📊 Dashboard Features
+   To start the Data Pipeline, type python pipeline.py.
 
-### Summary Metrics
-- Total securities tracked
-- Daily gainers/losers
-- News article count
-- Economic data points
+   This will work:
 
-### Interactive Charts
-- **Stock Price Trends**: Line charts showing 30-day price history
-- **Trading Volume**: Bar charts displaying volume by security
-- Real-time data refresh (every 5 minutes)
-- Zoom and pan capabilities
+   Get stock prices for AAPL, MSFT, GOOGL, and TSLA from Alpha Vantage.
 
-### Data Tables
-- **Recent News**: Latest financial news with symbol filtering
-- **Economic Indicators**: Key economic metrics with trend analysis
+   Use NewsAPI to get the news stories from the last seven days.
 
-## 🔄 Automated Execution
+   3. Get economic data from FRED, such as GDP, UNRATE, CPIAUCSL, and FEDFUNDS.
 
-### Manual Execution
-```bash
-python pipeline.py
-```
+   4. Move all of the data to staging tables.
 
-### Scheduled Execution (Linux/macOS)
-```bash
-# Edit crontab
-crontab -e
+   5. Change and add to the analytics star schema.
 
-# Add hourly execution
-0 * * * * cd /path/to/Dashboard_Project && /usr/bin/python3 pipeline.py >> pipeline.log 2>&1
-```
+   ### Step 2: Start the Web Dashboard by typing "bash python app.py"
 
-### Scheduled Execution (Windows)
-Use Task Scheduler to run `pipeline.py` at regular intervals.
+   To get to the dashboard, open your browser and type "http://localhost:5000."
 
-## 🗄️ Database Schema
+   ## 📊 Dashboard Features
 
-### Staging Schema (Raw Data)
-- `raw_stock_prices`: Alpha Vantage stock data
-- `raw_news_articles`: NewsAPI article data
-- `raw_econ_data`: FRED economic indicators
+   Summary Metrics: the total number of monitored stocks, daily gainers and decliners, news pieces, and economic data indicators.
 
-### Analytics Schema (Star Schema)
-- **Dimensions**: `dim_date`, `dim_security`, `dim_economic_indicator`
-- **Facts**: `fact_prices`, `fact_news`, `fact_economics`
+   - Trends in Stock Prices: Line charts that show how prices have changed over the past 30 days.  - Trading Volume: Bar charts that show how many of each security were traded.   Update real-time data every five minutes  - The ability to zoom in and out
 
-## 🔧 Configuration
+   - Current Financial News: The most recent news about money, with the ability to filter by symbol    - Economic Indicators: Important economic measures that look at trends
 
-### Customizing Stock Symbols
-Edit the `BASE_STOCK_SYMBOLS` variable in `.env`:
-```bash
-BASE_STOCK_SYMBOLS=AAPL,MSFT,GOOGL,TSLA,AMZN,NVDA
-```
+   ## Automatic Execution
 
-### Customizing Economic Indicators
-Edit the `ECONOMIC_SERIES` variable in `.env`:
-```bash
-ECONOMIC_SERIES=GDP,UNRATE,CPIAUCSL,FEDFUNDS,DGS10
-```
+   ### Do it by hand: ```bash python pipeline.py ```
 
-## 📝 API Rate Limits
+   ### Scheduled Execution (Linux/macOS) ```bash # Change crontab crontab -e```
 
-- **Alpha Vantage**: 5 calls/minute (free tier)
-- **NewsAPI**: 1,000 requests/day (free tier)
-- **FRED API**: 120 requests/minute (no API key required)
+   Set up hourly execution    Every hour at the start of the hour    Go to /path/to/Dashboard_Project and then run /usr/bin/python3 pipeline.py.
 
-The pipeline automatically respects rate limits with appropriate delays.
+   ### Tasks on Windows
 
-## 🔍 Troubleshooting
+   Set up Task Scheduler to run "pipeline.py" on a regular basis.
 
-### Common Issues
+   ## Database Schema
 
-1. **Database Connection Errors**
-   - Verify PostgreSQL is running
-   - Check DATABASE_URL in .env file
-   - Ensure database user has proper permissions
+   ### Staging Schema (Raw Data): `raw_stock_prices` has stock data from Alpha Vantage; `raw_news_articles` has article data from NewsAPI; and `raw_econ_data` has economic indicators from FRED.
 
-2. **API Key Errors**
-   - Verify all API keys are valid
-   - Check API key hasn't expired
-   - Ensure API keys have sufficient quota
+   ### Analytics Schema (Star Schema) - Dimensions: "dim_date," "dim_security," and "dim_economic_indicator"  - -  "fact_prices," "fact_news," and "fact_economics" are all facts.
 
-3. **Pipeline Failures**
-   - Check `pipeline.log` for detailed error messages
-   - Verify internet connectivity
-   - Ensure database tables exist (run setup_database.sql)
+   ## Settings
 
-4. **Dashboard Not Loading**
-   - Check Flask server is running on port 5000
-   - Verify analytics tables have data
-   - Check browser console for JavaScript errors
+   ### Changing Stock Symbols
 
-### Database Health Check
-```sql
--- Verify staging data was loaded
-SELECT COUNT(*) FROM staging.raw_stock_prices;
-SELECT COUNT(*) FROM staging.raw_news_articles;
-SELECT COUNT(*) FROM staging.raw_econ_data;
+   Change the `.env` file's `BASE_STOCK_SYMBOLS` variable to the following:  The base stock symbols are AAPL, MSFT, GOOGL, TSLA, AMZN, and NVDA.
 
--- Verify transformation completed
-SELECT COUNT(*) FROM analytics.fact_prices;
-SELECT COUNT(*) FROM analytics.fact_news;
-SELECT COUNT(*) FROM analytics.fact_economics;
-```
+   ### Making the Most of Economic Indicators
 
-## 🔐 Security Considerations
+   Change the `ECONOMIC_SERIES` variable in the `.env` file to this: ```bash ECONOMIC_SERIES=GDP,UNRATE,CPIAUCSL,FEDFUNDS,DGS10```
 
-- Store API keys in `.env` file (never commit to version control)
-- Use read-only database user for dashboard
-- Enable SSL connections in production
-- Regularly rotate API keys
+   ## 📝 API Rate Limits
 
-## 📈 Performance Optimization
+   - Alpha Vantage: Five calls every minute (free tier)
 
-- Database indexes included for optimal query performance
-- Connection pooling for web application
-- Incremental data loading to avoid duplicates
-- Chart rendering optimization for large datasets
+   - NewsAPI: 1,000 requests every day (free tier)
 
-## 🤝 Contributing
+   - FRED API: 120 requests every minute (no API key needed)
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+   The pipeline automatically follows rate limits by making sure there are enough time between requests.
 
-## 📄 License
+   ## 🔍 Fixing Problems
 
-This project is licensed under the MIT License.
+   ### Common Problems
 
-## 🆘 Support
+   1. Database Connection Errors—check to see if PostgreSQL is working, double-check the DATABASE_URL in the .env file, and make sure the database user has the right rights.
 
-For issues and questions:
-1. Check the troubleshooting section
-2. Review `pipeline.log` for error details
-3. Verify all prerequisites are met
-4. Check API key validity and quotas
+   2. API Key Errors—Check that all API keys are still valid and have enough capacity.
+
+   3. Pipeline Failures—To learn more about the problems, check out `pipeline.log`.
+
+      - Make sure your internet connection is working.  - Run setup_database.sql to make sure the database tables are there.
+
+   4. The dashboard isn't loading. Check to see if the Flask server is running on port 5000.
+
+      - Check that the analytics tables have data in them.   - Check the browser console for any JavaScript issues.
+
+   ###  Check the database's integrity.  Make sure that the data for staging has been loaded.
+
+   EXECUTE COUNT(*) FROM staging.raw_stock_prices; EXECUTE COUNT(*) FROM staging.raw_news_articles;  EXECUTE COUNT(*) FROM staging.raw_econ_data;
+
+   Make sure the change is finished.
+
+   SELECT COUNT(*) FROM analytics.fact_prices; SELECT COUNT(*) FROM analytics.fact_news; EXECUTE COUNT(*) FROM analytics.fact_economics;
+
+   ## 🔐 Things to Think About to Stay Safe
+
+   - Don't put API keys in version control; instead, keep them in a `.env` file.
+
+   - Use a database user who can only read the dashboard.
+
+   - Allow SSL connections in production.  - Change your API keys often.
+
+   ## 📈 Getting Better Results
+
+   - Database indexes that speed up queries - Connection pooling for web apps - Loading data in small chunks to cut down on redundancy - Making charts easier to read for big datasets
+
+   ## 🤝 Helping Out
+
+   1. Make a copy of the repository.
+
+   2. Make a branch for the feature.
+
+      Do a lot of testing.
+
+   Make a request to withdraw.
+
+   ## License
+
+   The MIT License says that this project can use it.
+
+   ## Help
+
+   1. Check the troubleshooting section and 2. look at `pipeline.log` for details about the problem.
+
+   3. Check that all conditions are met.
+
+   4. Make sure that your API key is still valid and that you haven't used up all of your quotas.
