@@ -142,7 +142,7 @@ def get_summary_metrics():
     
     Query optimizations:
     - Uses direct join on security_key instead of correlated subquery
-    - Reduces query complexity and improves execution time by ~40%
+    - Finds previous trading day instead of assuming consecutive days
 
     Returns:
         Dictionary with key metrics
@@ -160,16 +160,26 @@ def get_summary_metrics():
         JOIN analytics.dim_security ds ON fp.security_key = ds.security_key
         ORDER BY ds.symbol, dd.full_date DESC
     ),
+    previous_prices AS (
+        SELECT DISTINCT ON (ds.symbol)
+            ds.symbol,
+            ds.security_key,
+            fp.close_price,
+            dd.full_date
+        FROM analytics.fact_prices fp
+        JOIN analytics.dim_date dd ON fp.date_key = dd.date_key
+        JOIN analytics.dim_security ds ON fp.security_key = ds.security_key
+        WHERE dd.full_date < (SELECT MAX(full_date) FROM latest_prices)
+        ORDER BY ds.symbol, dd.full_date DESC
+    ),
     price_changes AS (
         SELECT
             lp.symbol,
             lp.close_price as current_price,
-            fp.close_price as previous_price,
-            ((lp.close_price - fp.close_price) / fp.close_price) * 100 as price_change
+            pp.close_price as previous_price,
+            ((lp.close_price - pp.close_price) / pp.close_price) * 100 as price_change
         FROM latest_prices lp
-        JOIN analytics.fact_prices fp ON lp.security_key = fp.security_key
-        JOIN analytics.dim_date dd ON fp.date_key = dd.date_key
-        WHERE dd.full_date = lp.full_date - INTERVAL '1 day'
+        JOIN previous_prices pp ON lp.security_key = pp.security_key
     )
     SELECT
         COUNT(*) as total_securities,
