@@ -268,8 +268,8 @@ def create_price_chart(data):
             'tickfont': {'size': 11, 'family': 'Inter, sans-serif'}
         },
         hovermode='x unified',
-        plot_bgcolor='transparent',
-        paper_bgcolor='transparent',
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
         font={'family': 'Inter, sans-serif', 'size': 12, 'color': '#0f172a'},
         showlegend=True,
         legend={
@@ -364,8 +364,8 @@ def create_volume_chart(data):
         barmode='group',
         bargap=0.15,
         bargroupgap=0.1,
-        plot_bgcolor='transparent',
-        paper_bgcolor='transparent',
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
         font={'family': 'Inter, sans-serif', 'size': 12, 'color': '#0f172a'},
         showlegend=True,
         legend={

@@ -312,8 +312,8 @@
         function updateChartTheme(theme) {
             const isDark = theme === 'dark';
             const chartLayoutUpdate = {
-                'plot_bgcolor': 'transparent',
-                'paper_bgcolor': 'transparent',
+                'plot_bgcolor': 'rgba(0,0,0,0)',
+                'paper_bgcolor': 'rgba(0,0,0,0)',
                 'font.color': isDark ? '#e2e8f0' : '#0f172a',
                 'font.family': 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
                 'font.size': 12,
